@@ -1,8 +1,10 @@
 require('dotenv').config();
-
-
+const mongoose = require('mongoose');
 let Person;
 
+mongoose.connect('mongodb+srv://admin:admin@cluster0.ujqtzlw.mongodb.net/movies?retryWrites=true&w=majority&appName=Cluster0',
+  {useNewUrlParser:true,useUnifiedTopology:true}
+);
 const createAndSavePerson = (done) => {
   done(null /*, data*/);
 };
