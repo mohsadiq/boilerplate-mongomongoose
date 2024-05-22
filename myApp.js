@@ -5,6 +5,24 @@ let Person;
 mongoose.connect('mongodb+srv://admin:admin@cluster0.ujqtzlw.mongodb.net/movies?retryWrites=true&w=majority&appName=Cluster0',
   {useNewUrlParser:true,useUnifiedTopology:true}
 );
+
+const personSchema = new mongoose.Schema({
+  name:{
+    type:String,
+    required:true
+  },
+  age:{
+    type:Number
+  },
+  favoriteFoods:{
+    type: [String]
+  }
+});
+
+Person = mongoose.model('Person',personSchema);
+
+
+
 const createAndSavePerson = (done) => {
   done(null /*, data*/);
 };
