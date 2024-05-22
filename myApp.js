@@ -50,31 +50,81 @@ const findPersonById = (personId, done) => {
 const findEditThenSave = (personId, done) => {
   const foodToAdd = "hamburger";
 
-  done(null /*, data*/);
+  Person.findById(personId, (err, personFound) => {
+    if(err) {
+      console.log(err)
+    } else {
+    personFound.favoriteFoods.push(foodToAdd);
+    }
+    
+    personFound.save((err, updatedPerson) => {
+      if(!err) {
+        done(null, updatedPerson);
+        console.log(`Found and Updated! \n ${updatedPerson}`);
+      } else {
+        console.log(err);
+      };
+    });
+  });
 };
 
 const findAndUpdate = (personName, done) => {
   const ageToSet = 20;
+  Person.findOneAndUpdate({name:personName},{age:ageToSet},{new:true},(err,data)=>{
+    if(!err){
+      done(null,data);
+      console.log('Sucess, new age: ${data)')
+    }else
+    {
+      console.log(err);
+    }
+  });
 
-  done(null /*, data*/);
 };
 
 const removeById = (personId, done) => {
-  done(null /*, data*/);
+  
+  Person.findOneAndRemove({ _id: personId }, (err, removedData) => {
+    if(!err) {
+      done(null , removedData);
+      console.log(`Found and Removed ID: ${removedData}`)
+    } else {
+      console.log(err);
+    }
+  });
 };
 
 const removeManyPeople = (done) => {
   const nameToRemove = "Mary";
 
-  done(null /*, data*/);
+  Person.remove({name: nameToRemove}, (err, deletedName) => {
+    if(!err) {
+      done(null, deletedName);
+      console.log(`Deleted ${deletedName} Successfully.`)
+    } else {
+      console.log(err);
+    };
+  });
 };
 
 const queryChain = (done) => {
   const foodToSearch = "burrito";
-
-  done(null /*, data*/);
+  
+  const findPerson = 
+    Person
+    .find({favoriteFoods: foodToSearch})
+    .sort({name: 1})
+    .limit(2)
+    .select({age: 0})
+    .exec((err, data) => {
+      if(!err) {
+      done(null, data);
+      console.log(`Chained Successfully. Results:\n ${data}`)
+      } else {
+        console.log(err);
+      };
+    });
 };
-
 /** **Well Done !!**
 /* You completed these challenges, let's go celebrate !
  */
