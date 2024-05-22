@@ -18,17 +18,21 @@ const personSchema = new mongoose.Schema({
     type: [String]
   }
 });
-
 Person = mongoose.model('Person',personSchema);
 
 
 
 const createAndSavePerson = (done) => {
-  done(null /*, data*/);
+  const person = new Person({
+    name:"Sadiq Hosainy",
+    age:32,
+    favoriteFoods: ["Abc","ABC"]
+  })
+  person.save(done);
 };
 
 const createManyPeople = (arrayOfPeople, done) => {
-  done(null /*, data*/);
+  Person.create(arrayOfPeople,done);
 };
 
 const findPeopleByName = (personName, done) => {
